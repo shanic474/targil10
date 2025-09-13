@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "s10shani/targil10-app" // Docker Hub repo under your account
+        IMAGE_NAME = "s10shani/app.js" // Docker Hub repo under your account
         IMAGE_TAG = "latest"
         CONTAINER_NAME = "targil10-container"
     }
