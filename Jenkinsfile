@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "your-dockerhub-username/hello-world-app"
+        IMAGE_TAG = "latest"
+    }
+
     stages {
         stage('Code Checkout') {
             steps {
@@ -12,12 +17,18 @@ pipeline {
         stage('Docker Build & Tag') {
             steps {
                 script {
-                    // Define image name and tag
-                    def imageName = "hello-world-app"
-                    def imageTag = "v1.0"
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                }
+            }
+        }
 
-                    // Build Docker image
-                    sh "docker build -t ${imageName}:${imageTag} ."
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker push ${IMAGE_NAME}:latest
+                    '''
                 }
             }
         }
