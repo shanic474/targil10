@@ -10,7 +10,7 @@ pipeline {
         stage('Code Checkout') {
             steps {
                 // Pull the latest code from GitHub
-                git url: 'https://github.com/<your-username>/jenkins-hello-world.git', branch: 'main'
+                git url: 'https://github.com/shanic474/-Bash-script-that-says-Hello-World-.git', branch: 'main'
             }
         }
 
